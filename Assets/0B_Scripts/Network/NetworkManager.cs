@@ -12,6 +12,8 @@ public class NetworkManager : MonoSingleton<NetworkManager>
     [SerializeField] private string _ip;
     [SerializeField] private int _port;
 
+    [SerializeField, ReadOnly] private string _token;
+
     private Socket _tcpSocket;
     private Socket _udpSocket;
 
@@ -26,6 +28,8 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
         var option = MessagePackSerializerOptions.Standard.WithResolver(StaticCompositeResolver.Instance);
         MessagePackSerializer.DefaultOptions = option;
+
+        PacketHandler.Register(PacketId.LoginResponse, (packet) => _token = ((LoginResponsePacket)packet).IssuedToken);
 
         _ = Task.Run(() => HandleTcpListen());
         _ = Task.Run(() => HandleUdpListen());
@@ -57,7 +61,7 @@ public class NetworkManager : MonoSingleton<NetworkManager>
                 PacketBase packet = await TcpPacketHelper.ReceiveAsync(_tcpSocket);
                 if (packet == null) continue;
 
-
+                PacketHandler.Handle((PacketId)packet.ID, packet);
             }
         }
         catch (Exception ex)
@@ -86,9 +90,9 @@ public class NetworkManager : MonoSingleton<NetworkManager>
             PacketBase packet = UdpPacketHelper.Deserialize(buffer, result.ReceivedBytes);
             if (packet == null) return;
 
-            if (packet is UdpPacketBase udpPacket)
+            if (packet is UdpPacketBase)
             {
-                
+                PacketHandler.Handle((PacketId)packet.ID, packet);
             }
         }
     }
