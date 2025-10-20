@@ -8,5 +8,7 @@ public enum PacketId : ushort
     Login,
     LoginResponse,
 
+    Chat,
+
     Move
 }

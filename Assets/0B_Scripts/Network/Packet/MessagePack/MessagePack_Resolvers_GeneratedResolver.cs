@@ -47,15 +47,16 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(7)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(8)
             {
-                { typeof(global::LoginPacket), 0 },
-                { typeof(global::LoginResponsePacket), 1 },
-                { typeof(global::MovePacket), 2 },
-                { typeof(global::PacketBase), 3 },
-                { typeof(global::RegisterPacket), 4 },
-                { typeof(global::RegisterResponsePacket), 5 },
-                { typeof(global::UdpPacketBase), 6 },
+                { typeof(global::ChatPacket), 0 },
+                { typeof(global::LoginPacket), 1 },
+                { typeof(global::LoginResponsePacket), 2 },
+                { typeof(global::MovePacket), 3 },
+                { typeof(global::PacketBase), 4 },
+                { typeof(global::RegisterPacket), 5 },
+                { typeof(global::RegisterResponsePacket), 6 },
+                { typeof(global::UdpPacketBase), 7 },
             };
         }
 
@@ -69,13 +70,14 @@ namespace MessagePack.Resolvers
 
             switch (key)
             {
-                case 0: return new MessagePack.Formatters.LoginPacketFormatter();
-                case 1: return new MessagePack.Formatters.LoginResponsePacketFormatter();
-                case 2: return new MessagePack.Formatters.MovePacketFormatter();
-                case 3: return new MessagePack.Formatters.PacketBaseFormatter();
-                case 4: return new MessagePack.Formatters.RegisterPacketFormatter();
-                case 5: return new MessagePack.Formatters.RegisterResponsePacketFormatter();
-                case 6: return new MessagePack.Formatters.UdpPacketBaseFormatter();
+                case 0: return new MessagePack.Formatters.ChatPacketFormatter();
+                case 1: return new MessagePack.Formatters.LoginPacketFormatter();
+                case 2: return new MessagePack.Formatters.LoginResponsePacketFormatter();
+                case 3: return new MessagePack.Formatters.MovePacketFormatter();
+                case 4: return new MessagePack.Formatters.PacketBaseFormatter();
+                case 5: return new MessagePack.Formatters.RegisterPacketFormatter();
+                case 6: return new MessagePack.Formatters.RegisterResponsePacketFormatter();
+                case 7: return new MessagePack.Formatters.UdpPacketBaseFormatter();
                 default: return null;
             }
         }

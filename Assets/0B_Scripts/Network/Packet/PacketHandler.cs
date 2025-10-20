@@ -10,11 +10,13 @@ public static class PacketHandler
         _handlers[id] = handler;
     }
 
-    public static void Handle(PacketId id, PacketBase packet)
+    public static Action Handle(PacketId id, PacketBase packet)
     {
         if (_handlers.TryGetValue(id, out Action<PacketBase> handler))
         {
-            handler?.Invoke(packet);
+            return () => handler?.Invoke(packet);
         }
+
+        return null;
     }
 }

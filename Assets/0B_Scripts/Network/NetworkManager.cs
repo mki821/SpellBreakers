@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
     private Socket _tcpSocket;
     private Socket _udpSocket;
+
+    private Queue<Action> _commandQueue = new Queue<Action>();
 
     protected override void Awake()
     {
@@ -35,7 +38,15 @@ public class NetworkManager : MonoSingleton<NetworkManager>
         _ = Task.Run(() => HandleUdpListen());
     }
 
-    void OnDestroy()
+    private void Update()
+    {
+        while(_commandQueue.Count > 0)
+        {
+            _commandQueue.Dequeue()?.Invoke();
+        }
+    }
+
+    private void OnDestroy()
     {
         _tcpSocket.Close();
         _udpSocket.Close();
@@ -61,7 +72,11 @@ public class NetworkManager : MonoSingleton<NetworkManager>
                 PacketBase packet = await TcpPacketHelper.ReceiveAsync(_tcpSocket);
                 if (packet == null) continue;
 
-                PacketHandler.Handle((PacketId)packet.ID, packet);
+                Action handler = PacketHandler.Handle((PacketId)packet.ID, packet);
+                if(handler != null)
+                {
+                    _commandQueue.Enqueue(handler);
+                }
             }
         }
         catch (Exception ex)
@@ -92,7 +107,11 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
             if (packet is UdpPacketBase)
             {
-                PacketHandler.Handle((PacketId)packet.ID, packet);
+                Action handler = PacketHandler.Handle((PacketId)packet.ID, packet);
+                if(handler != null)
+                {
+                    _commandQueue.Enqueue(handler);
+                }
             }
         }
     }

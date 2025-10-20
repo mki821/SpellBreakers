@@ -50,10 +50,19 @@ public class LoginResponsePacket : PacketBase
 }
 
 [MessagePackObject]
+public class ChatPacket : PacketBase
+{
+    [Key(1)] public string Sender { get; set; } = "";
+    [Key(2)] public string Message { get; set; } = "";
+    
+    public ChatPacket() { ID = 5; }
+}
+
+[MessagePackObject]
 public class MovePacket : UdpPacketBase
 {
     [Key(2)] public float X { get; set; }
     [Key(3)] public float Y { get; set; }
 
-    public MovePacket() { ID = 5; }
+    public MovePacket() { ID = 6; }
 }

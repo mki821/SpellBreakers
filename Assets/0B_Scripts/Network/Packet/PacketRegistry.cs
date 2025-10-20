@@ -10,7 +10,8 @@ public static class PacketRegistry
         { 2, typeof(RegisterResponsePacket) },
         { 3, typeof(LoginPacket) },
         { 4, typeof(LoginResponsePacket) },
-        { 5, typeof(MovePacket) },
+        { 5, typeof(ChatPacket) },
+        { 6, typeof(MovePacket) },
     };
 
     public static Type GetTypeById(ushort id) => _typeById[id];
