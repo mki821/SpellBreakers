@@ -1,8 +1,9 @@
 ﻿// Copyright (c) All contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+#nullable enable
+
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -202,6 +203,8 @@ namespace MessagePack.Internal
         }
 
         private static void VolatileWrite([NotNullIfNotNull("value")] ref Entry? location, Entry value)
+#pragma warning disable CS8824 // NotNullIfNotNull이 참조하는 매개 변수가 null이 아니므로 매개 변수는 종료할 때 null이 아닌 값을 가져야 합니다.
+
         {
 #if !UNITY_2018_3_OR_NEWER
             System.Threading.Volatile.Write(ref location!, value);
@@ -212,6 +215,8 @@ namespace MessagePack.Internal
             location = value;
 #endif
         }
+#pragma warning restore CS8824 // NotNullIfNotNull이 참조하는 매개 변수가 null이 아니므로 매개 변수는 종료할 때 null이 아닌 값을 가져야 합니다.
+
 
         private static void VolatileWrite([NotNullIfNotNull("value")] ref Entry[] location, Entry[] value)
         {

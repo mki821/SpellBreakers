@@ -3,6 +3,8 @@
 
 #pragma warning disable SA1402 // File may only contain a single type
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using MessagePack.Formatters;
