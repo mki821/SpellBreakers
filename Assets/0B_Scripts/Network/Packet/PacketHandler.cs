@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class PacketHandler
 {
@@ -16,6 +17,8 @@ public static class PacketHandler
         {
             return () => handler?.Invoke(packet);
         }
+
+        Debug.LogWarning($"{id} 없음.");
 
         return null;
     }

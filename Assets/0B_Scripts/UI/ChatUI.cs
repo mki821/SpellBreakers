@@ -9,6 +9,7 @@ public class ChatUI : MonoBehaviour
     private void Awake()
     {
         PacketHandler.Register(PacketId.Chat, UpdateChat);
+        PacketHandler.Register(PacketId.RoomInfo, (packet) => { int a = 0; });
     }
     
     private void UpdateChat(PacketBase packet)

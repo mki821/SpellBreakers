@@ -8,6 +8,18 @@ public enum PacketId : ushort
     Login,
     LoginResponse,
 
+    ListRoom,
+    ListRoomResponse,
+    CreateRoom,
+    JoinRoom,
+    JoinRoomResponse,
+    LeaveRoom,
+    LeaveRoomResponse,
+
+    RoomInfo,
+    SwitchRole,
+    SwitchRoleResponse,
+
     Chat,
 
     Move
