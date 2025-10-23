@@ -60,8 +60,17 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
     private async Task HandleTcpListen()
     {
-        _tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        await _tcpSocket.ConnectAsync(_ip, _port);
+        try
+        {
+            _tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            await _tcpSocket.ConnectAsync(_ip, _port);
+        }
+        catch
+        {
+            Debug.LogWarning("[클라이언트] 서버 연결 실패!");
+
+            return;
+        }
 
         Debug.Log("[클라이언트] Tcp 서버 연결됨!");
 
@@ -73,7 +82,7 @@ public class NetworkManager : MonoSingleton<NetworkManager>
                 if (packet == null) continue;
 
                 Action handler = PacketHandler.Handle((PacketId)packet.ID, packet);
-                if(handler != null)
+                if (handler != null)
                 {
                     _commandQueue.Enqueue(handler);
                 }
@@ -89,7 +98,7 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
             _tcpSocket.Close();
         }
-    }
+        }
 
     private async Task HandleUdpListen()
     {

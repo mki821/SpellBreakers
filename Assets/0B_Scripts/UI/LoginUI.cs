@@ -6,6 +6,8 @@ public class LoginUI : MonoBehaviour
     [SerializeField] private TMP_InputField _nicknameInput;
     [SerializeField] private TMP_InputField _passwordInput;
 
+    [SerializeField] private GameObject _temp;
+
     private void Awake()
     {
         PacketHandler.Register(PacketId.LoginResponse, CompleteLogin);
@@ -37,5 +39,11 @@ public class LoginUI : MonoBehaviour
         };
 
         NetworkManager.Instance.SendAsync(packet);
+    }
+
+    public void ChangeRegister()
+    {
+        _temp.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
