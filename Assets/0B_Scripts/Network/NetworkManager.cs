@@ -72,8 +72,6 @@ public class NetworkManager : MonoSingleton<NetworkManager>
                 PacketBase packet = await TcpPacketHelper.ReceiveAsync(_tcpSocket);
                 if (packet == null) continue;
 
-                Debug.Log((PacketId)packet.ID);
-
                 Action handler = PacketHandler.Handle((PacketId)packet.ID, packet);
                 if(handler != null)
                 {

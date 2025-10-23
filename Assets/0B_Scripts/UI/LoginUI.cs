@@ -17,6 +17,9 @@ public class LoginUI : MonoBehaviour
 
         if (response.Success)
         {
+            ListRoomPacket list = new ListRoomPacket();
+            NetworkManager.Instance.SendAsync(list);
+            
             gameObject.SetActive(false);
         }
         else

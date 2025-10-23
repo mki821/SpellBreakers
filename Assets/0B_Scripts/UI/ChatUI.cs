@@ -9,13 +9,20 @@ public class ChatUI : MonoBehaviour
     private void Awake()
     {
         PacketHandler.Register(PacketId.Chat, UpdateChat);
-        PacketHandler.Register(PacketId.RoomInfo, (packet) => { int a = 0; });
     }
     
     private void UpdateChat(PacketBase packet)
     {
         ChatPacket chat = (ChatPacket)packet;
-        _chatText.text += $"\n[{chat.Sender}] {chat.Message}";
+
+        if (string.IsNullOrEmpty(chat.Sender))
+        {
+            _chatText.text += $"\n{chat.Message}";
+        }
+        else
+        {
+            _chatText.text += $"\n[{chat.Sender}] {chat.Message}";
+        }
     }
 
     public void Send()
