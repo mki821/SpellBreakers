@@ -28,10 +28,9 @@ namespace MessagePack.Formatters
             }
 
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(4);
+            writer.WriteArrayHeader(3);
             writer.Write(value.ID);
             writer.Write(value.Success);
-            writer.Write(value.ToSpectator);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.Message, options);
         }
 
@@ -58,9 +57,6 @@ namespace MessagePack.Formatters
                         ____result.Success = reader.ReadBoolean();
                         break;
                     case 2:
-                        ____result.ToSpectator = reader.ReadBoolean();
-                        break;
-                    case 3:
                         ____result.Message = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     default:

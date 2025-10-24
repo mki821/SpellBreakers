@@ -92,8 +92,7 @@ public class SwitchRolePacket : PacketBase
 public class SwitchRoleResponsePacket : PacketBase
 {
     [Key(1)] public bool Success { get; set; }
-    [Key(2)] public bool ToSpectator { get; set; }
-    [Key(3)] public string Message { get; set; } = "";
+    [Key(2)] public string Message { get; set; } = "";
 
     public SwitchRoleResponsePacket() { ID = (ushort)PacketId.SwitchRoleResponse; }
 }
