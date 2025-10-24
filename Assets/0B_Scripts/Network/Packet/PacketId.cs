@@ -17,10 +17,9 @@ public enum PacketId : ushort
     LeaveRoomResponse,
 
     RoomInfo,
+    Chat,
     SwitchRole,
     SwitchRoleResponse,
-
-    Chat,
 
     Move
 }

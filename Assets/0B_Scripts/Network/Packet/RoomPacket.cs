@@ -83,6 +83,15 @@ public class UserElement
 }
 
 [MessagePackObject]
+public class ChatPacket : PacketBase
+{
+    [Key(1)] public string Sender { get; set; } = "";
+    [Key(2)] public string Message { get; set; } = "";
+    
+    public ChatPacket() { ID = (ushort)PacketId.Chat; }
+}
+
+[MessagePackObject]
 public class SwitchRolePacket : PacketBase
 {
     public SwitchRolePacket() { ID = (ushort)PacketId.SwitchRole; }

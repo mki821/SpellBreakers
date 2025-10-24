@@ -1,18 +1,6 @@
 using MessagePack;
 
 [MessagePackObject]
-public class PacketBase
-{
-    [Key(0)] public virtual ushort ID { get; set; }
-}
-
-[MessagePackObject]
-public class UdpPacketBase : PacketBase
-{
-    [Key(1)] public string Token { get; set; } = "";
-}
-
-[MessagePackObject]
 public class RegisterPacket : PacketBase
 {
     [Key(1)] public string Nickname { get; set; } = "";
@@ -47,15 +35,6 @@ public class LoginResponsePacket : PacketBase
     [Key(3)] public string IssuedToken { get; set; } = "";
 
     public LoginResponsePacket() { ID = (ushort)PacketId.LoginResponse; }
-}
-
-[MessagePackObject]
-public class ChatPacket : PacketBase
-{
-    [Key(1)] public string Sender { get; set; } = "";
-    [Key(2)] public string Message { get; set; } = "";
-    
-    public ChatPacket() { ID = (ushort)PacketId.Chat; }
 }
 
 [MessagePackObject]
