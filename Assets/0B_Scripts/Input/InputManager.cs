@@ -26,7 +26,7 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     public void RemoveListener(InputType type, Action callback) => _so.EventDictionary[type] -= callback;
-    public Vector2 GetMousePosition() => _so.MousePosition;
+    public Vector2 GetMovement() => _so.Movement;
 
     public void Rebind(InputType type, bool mouseEnable = true)
     {

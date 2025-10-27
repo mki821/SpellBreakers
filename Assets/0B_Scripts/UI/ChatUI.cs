@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ChatUI : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class ChatUI : MonoBehaviour
 
     private void Awake()
     {
-        PacketHandler.Register(PacketId.Chat, UpdateChat);
+        PacketHandler.Register(PacketId.Chat, (packet) => { if(((ChatPacket)packet).Sender != "") SceneManager.LoadScene(1); });
     }
     
     private void UpdateChat(PacketBase packet)

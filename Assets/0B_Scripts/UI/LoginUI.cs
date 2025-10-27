@@ -21,6 +21,11 @@ public class LoginUI : MonoBehaviour
         {
             ListRoomPacket list = new ListRoomPacket();
             NetworkManager.Instance.SendAsync(list);
+
+            NetworkManager.Instance.Token = ((LoginResponsePacket)packet).IssuedToken;
+
+            UdpConnectPacket connect = new UdpConnectPacket { Token = NetworkManager.Instance.Token };
+            NetworkManager.Instance.SendUdpAsync(connect);
             
             gameObject.SetActive(false);
         }

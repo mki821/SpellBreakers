@@ -38,10 +38,7 @@ public class LoginResponsePacket : PacketBase
 }
 
 [MessagePackObject]
-public class MovePacket : UdpPacketBase
+public class UdpConnectPacket : UdpPacketBase
 {
-    [Key(2)] public float X { get; set; }
-    [Key(3)] public float Y { get; set; }
-
-    public MovePacket() { ID = (ushort)PacketId.Move; }
+    public UdpConnectPacket() { ID = (ushort)PacketId.UdpConnect; }
 }

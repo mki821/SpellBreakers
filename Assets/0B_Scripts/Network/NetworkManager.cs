@@ -13,12 +13,13 @@ public class NetworkManager : MonoSingleton<NetworkManager>
     [SerializeField] private string _ip;
     [SerializeField] private int _port;
 
-    [SerializeField, ReadOnly] private string _token;
-
     private Socket _tcpSocket;
     private Socket _udpSocket;
+    private EndPoint _udpEndPoint;
 
     private Queue<Action> _commandQueue = new Queue<Action>();
+
+    [field: SerializeField, ReadOnly] public string Token { get; set; }
 
     protected override void Awake()
     {
@@ -31,8 +32,6 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
         var option = MessagePackSerializerOptions.Standard.WithResolver(StaticCompositeResolver.Instance);
         MessagePackSerializer.DefaultOptions = option;
-
-        PacketHandler.Register(PacketId.LoginResponse, (packet) => _token = ((LoginResponsePacket)packet).IssuedToken);
 
         _ = Task.Run(() => HandleTcpListen());
         _ = Task.Run(() => HandleUdpListen());
@@ -98,12 +97,14 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
             _tcpSocket.Close();
         }
-        }
+    }
 
     private async Task HandleUdpListen()
     {
         _udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        await _udpSocket.ConnectAsync(_ip, _port + 1);
+        _udpSocket.Bind(new IPEndPoint(IPAddress.Any, 0));
+
+        _udpEndPoint = new IPEndPoint(IPAddress.Parse(_ip), _port + 1);
 
         byte[] buffer = new byte[1024];
 
@@ -112,7 +113,7 @@ public class NetworkManager : MonoSingleton<NetworkManager>
             SocketReceiveFromResult result = await _udpSocket.ReceiveFromAsync(buffer, SocketFlags.None, new IPEndPoint(IPAddress.Any, 0));
 
             PacketBase packet = UdpPacketHelper.Deserialize(buffer, result.ReceivedBytes);
-            if (packet == null) return;
+            if (packet == null) continue;
 
             if (packet is UdpPacketBase)
             {
@@ -124,9 +125,14 @@ public class NetworkManager : MonoSingleton<NetworkManager>
             }
         }
     }
-    
+
     public async void SendAsync<T>(T packet) where T : PacketBase
     {
         await TcpPacketHelper.SendAsync(_tcpSocket, packet);
+    }
+    
+    public async void SendUdpAsync<T>(T packet) where T : UdpPacketBase
+    {
+        await UdpPacketHelper.SendAsync(_udpSocket, _udpEndPoint, packet);
     }
 }

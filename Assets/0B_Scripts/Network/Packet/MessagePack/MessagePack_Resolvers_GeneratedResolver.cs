@@ -47,7 +47,7 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(22)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(23)
             {
                 { typeof(global::System.Collections.Generic.List<global::RoomElement>), 0 },
                 { typeof(global::System.Collections.Generic.List<global::UserElement>), 1 },
@@ -69,8 +69,9 @@ namespace MessagePack.Resolvers
                 { typeof(global::RoomInfoPacket), 17 },
                 { typeof(global::SwitchRolePacket), 18 },
                 { typeof(global::SwitchRoleResponsePacket), 19 },
-                { typeof(global::UdpPacketBase), 20 },
-                { typeof(global::UserElement), 21 },
+                { typeof(global::UdpConnectPacket), 20 },
+                { typeof(global::UdpPacketBase), 21 },
+                { typeof(global::UserElement), 22 },
             };
         }
 
@@ -104,8 +105,9 @@ namespace MessagePack.Resolvers
                 case 17: return new MessagePack.Formatters.RoomInfoPacketFormatter();
                 case 18: return new MessagePack.Formatters.SwitchRolePacketFormatter();
                 case 19: return new MessagePack.Formatters.SwitchRoleResponsePacketFormatter();
-                case 20: return new MessagePack.Formatters.UdpPacketBaseFormatter();
-                case 21: return new MessagePack.Formatters.UserElementFormatter();
+                case 20: return new MessagePack.Formatters.UdpConnectPacketFormatter();
+                case 21: return new MessagePack.Formatters.UdpPacketBaseFormatter();
+                case 22: return new MessagePack.Formatters.UserElementFormatter();
                 default: return null;
             }
         }

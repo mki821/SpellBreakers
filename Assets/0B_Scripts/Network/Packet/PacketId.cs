@@ -8,6 +8,8 @@ public enum PacketId : ushort
     Login,
     LoginResponse,
 
+    UdpConnect,
+
     ListRoom,
     ListRoomResponse,
     CreateRoom,

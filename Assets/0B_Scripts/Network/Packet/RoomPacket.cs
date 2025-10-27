@@ -105,3 +105,12 @@ public class SwitchRoleResponsePacket : PacketBase
 
     public SwitchRoleResponsePacket() { ID = (ushort)PacketId.SwitchRoleResponse; }
 }
+
+[MessagePackObject]
+public class MovePacket : UdpPacketBase
+{
+    [Key(2)] public float X { get; set; }
+    [Key(3)] public float Y { get; set; }
+
+    public MovePacket() { ID = (ushort)PacketId.Move; }
+}
