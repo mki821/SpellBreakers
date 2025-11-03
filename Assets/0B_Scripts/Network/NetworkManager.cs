@@ -68,6 +68,8 @@ public class NetworkManager : MonoSingleton<NetworkManager>
         {
             Debug.LogWarning("[클라이언트] 서버 연결 실패!");
 
+            UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText("연결 실패!");
+
             return;
         }
 

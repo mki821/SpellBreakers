@@ -14,7 +14,7 @@ public class PopupUIManager
         _popupTransform = popupTransform;
     }
 
-    public PopupUI AddPopup(PopupType type)
+    public T AddPopup<T>(PopupType type) where T : PopupUI
     {
         if (!_popupDictionary.TryGetValue(type, out PopupUI popup))
             return null;
@@ -24,7 +24,7 @@ public class PopupUIManager
 
         _popupStack.Push(newPopup);
 
-        return newPopup;
+        return newPopup as T;
     }
 
     public void RemovePopup()

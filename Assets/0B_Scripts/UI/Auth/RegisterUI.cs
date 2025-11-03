@@ -12,8 +12,7 @@ public class RegisterUI : UIBase
     {
         if (_passwordInput.text != _checkPasswordInput.text)
         {
-            WarningPopupUI warning = UIManager.Instance.PopupUI.AddPopup(PopupType.Warning) as WarningPopupUI;
-            warning.SetText("비밀번호가 서로 다릅니다!");
+            UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText("비밀번호가 서로 다릅니다!");
 
             return;
         }

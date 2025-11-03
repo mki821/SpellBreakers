@@ -1,5 +1,9 @@
 public enum UIType : ushort
 {
+    Auth,
     Register,
-    Login
+    Login,
+    Room,
+    RoomList,
+    RoomInfo
 }

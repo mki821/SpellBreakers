@@ -1,19 +1,14 @@
 using UnityEngine;
 
-public class RoomListUI : MonoBehaviour
+public class RoomListUI : UIBase
 {
     [SerializeField] private RectTransform _contentTransform;
-    [SerializeField] private CreateRoomUI _createRoom;
     [SerializeField] private RoomElementUI _prefab;
     [SerializeField] private float _offset;
+    
+    [SerializeField] private CreateRoomUI _createRoom;
 
-    private void Awake()
-    {
-        PacketHandler.Register(PacketId.ListRoomResponse, HandleListRoom);
-        PacketHandler.Register(PacketId.JoinRoomResponse, HandleJoinRoom);
-    }
-
-    private void HandleListRoom(PacketBase packet)
+    public void HandleListRoom(PacketBase packet)
     {
         ListRoomResponsePacket response = (ListRoomResponsePacket)packet;
 
@@ -31,17 +26,19 @@ public class RoomListUI : MonoBehaviour
         }
     }
 
-    private void HandleJoinRoom(PacketBase packet)
+    public void HandleJoinRoom(PacketBase packet)
     {
         JoinRoomResponsePacket response = (JoinRoomResponsePacket)packet;
 
         if (response.Success)
         {
             gameObject.SetActive(false);
+            UIManager.Instance.GetUI(UIType.RoomInfo).gameObject.SetActive(true);
+            (UIManager.Instance.GetUI(UIType.RoomInfo) as RoomInfoUI).Chat.ClearChat();
         }
         else
         {
-            Debug.Log(response.Message);
+            UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText(response.Message);
         }
     }
 

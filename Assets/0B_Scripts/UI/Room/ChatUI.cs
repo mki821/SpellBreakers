@@ -1,18 +1,12 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class ChatUI : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _messageInput;
     [SerializeField] private TextMeshProUGUI _chatText;
-
-    private void Awake()
-    {
-        PacketHandler.Register(PacketId.Chat, (packet) => { if(((ChatPacket)packet).Sender != "") SceneManager.LoadScene(1); });
-    }
     
-    private void UpdateChat(PacketBase packet)
+    public void UpdateChat(PacketBase packet)
     {
         ChatPacket chat = (ChatPacket)packet;
 
@@ -24,6 +18,11 @@ public class ChatUI : MonoBehaviour
         {
             _chatText.text += $"\n[{chat.Sender}] {chat.Message}";
         }
+    }
+
+    public void ClearChat()
+    {
+        _chatText.text = string.Empty;
     }
 
     public void Send()

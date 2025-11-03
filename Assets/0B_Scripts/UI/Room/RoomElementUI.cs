@@ -33,14 +33,19 @@ public class RoomElementUI : MonoBehaviour, IPointerClickHandler
         _id = element.ID;
     }
 
-    public async void OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Join();
+    }
+
+    private async void Join()
     {
         JoinRoomPacket packet = new JoinRoomPacket();
         packet.RoomID = _id;
 
         if (_locked)
         {
-            PasswordPopupUI popup = (PasswordPopupUI)UIManager.Instance.PopupUI.AddPopup(PopupType.Password);
+            PasswordPopupUI popup = UIManager.Instance.PopupUI.AddPopup<PasswordPopupUI>(PopupType.Password);
 
             string password = await popup.GetPassword();
             packet.Password = password;

@@ -13,6 +13,7 @@ public class AuthUI : UIBase
             };
 
             NetworkManager.Instance.SendAsync(login);
+
         }
     }
 
@@ -27,8 +28,7 @@ public class AuthUI : UIBase
         }
         else
         {
-            WarningPopupUI warning = UIManager.Instance.PopupUI.AddPopup(PopupType.Warning) as WarningPopupUI;
-            warning.SetText(response.Message);
+            UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText(response.Message);
         }
     }
 
@@ -38,20 +38,17 @@ public class AuthUI : UIBase
 
         if (response.Success)
         {
-            ListRoomPacket list = new ListRoomPacket();
-            NetworkManager.Instance.SendAsync(list);
-
             NetworkManager.Instance.Token = ((LoginResponsePacket)packet).IssuedToken;
 
             UdpConnectPacket connect = new UdpConnectPacket { Token = NetworkManager.Instance.Token };
             NetworkManager.Instance.SendUdpAsync(connect);
-            
-            UIManager.Instance.GetUI(UIType.Login).gameObject.SetActive(false);
+
+            gameObject.SetActive(false);
+            UIManager.Instance.GetUI(UIType.Room).gameObject.SetActive(true);
         }
         else
         {
-            WarningPopupUI warning = UIManager.Instance.PopupUI.AddPopup(PopupType.Warning) as WarningPopupUI;
-            warning.SetText(response.Message);
+            UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText(response.Message);
         }
     }
 }
