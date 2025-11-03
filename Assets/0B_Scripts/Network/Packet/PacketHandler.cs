@@ -8,7 +8,22 @@ public static class PacketHandler
 
     public static void Register(PacketId id, Action<PacketBase> handler)
     {
-        _handlers[id] = handler;
+        if (_handlers.ContainsKey(id))
+        {
+            _handlers[id] += handler;
+        }
+        else
+        {
+            _handlers[id] = handler;
+        }
+    }
+
+    public static void Unregister(PacketId id, Action<PacketBase> handler)
+    {
+        if(_handlers.ContainsKey(id))
+        {
+            _handlers[id] -= handler;
+        }
     }
 
     public static Action Handle(PacketId id, PacketBase packet)

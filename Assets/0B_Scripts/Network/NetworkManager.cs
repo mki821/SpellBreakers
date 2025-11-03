@@ -19,7 +19,7 @@ public class NetworkManager : MonoSingleton<NetworkManager>
 
     private Queue<Action> _commandQueue = new Queue<Action>();
 
-    [field: SerializeField, ReadOnly] public string Token { get; set; }
+    [field: SerializeField, /*ReadOnly*/] public string Token { get; set; }
 
     protected override void Awake()
     {

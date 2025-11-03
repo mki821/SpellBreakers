@@ -6,6 +6,7 @@ public enum PacketId : ushort
     RegisterResponse,
 
     Login,
+    AutoLogin,
     LoginResponse,
 
     UdpConnect,

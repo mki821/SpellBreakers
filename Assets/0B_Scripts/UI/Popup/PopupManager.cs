@@ -7,17 +7,11 @@ public class PopupUIManager
     private Dictionary<PopupType, PopupUI> _popupDictionary;
     private Transform _popupTransform;
 
-    public PopupUIManager(PopupUIList list, Transform popupTransform)
+    public PopupUIManager(Dictionary<PopupType, PopupUI> popupDictionary, Transform popupTransform)
     {
         _popupStack = new Stack<PopupUI>();
-        _popupDictionary = new Dictionary<PopupType, PopupUI>();
+        _popupDictionary = popupDictionary;
         _popupTransform = popupTransform;
-
-        List<PopupUIElement> llist = list.list;
-        for (int i = 0; i < llist.Count; ++i)
-        {
-            _popupDictionary.Add(llist[i].type, llist[i].prefab);
-        }
     }
 
     public PopupUI AddPopup(PopupType type)
@@ -35,8 +29,11 @@ public class PopupUIManager
 
     public void RemovePopup()
     {
-        PopupUI popup = _popupStack.Pop();
-        popup.Close();
-        Object.Destroy(popup.gameObject);
+        if(_popupStack.Count > 0)
+        {
+            PopupUI popup = _popupStack.Pop();
+            popup.Close();
+            Object.Destroy(popup.gameObject);
+        }
     }
 }

@@ -47,31 +47,32 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(23)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(24)
             {
                 { typeof(global::System.Collections.Generic.List<global::RoomElement>), 0 },
                 { typeof(global::System.Collections.Generic.List<global::UserElement>), 1 },
-                { typeof(global::ChatPacket), 2 },
-                { typeof(global::CreateRoomPacket), 3 },
-                { typeof(global::JoinRoomPacket), 4 },
-                { typeof(global::JoinRoomResponsePacket), 5 },
-                { typeof(global::LeaveRoomPacket), 6 },
-                { typeof(global::LeaveRoomResponsePacket), 7 },
-                { typeof(global::ListRoomPacket), 8 },
-                { typeof(global::ListRoomResponsePacket), 9 },
-                { typeof(global::LoginPacket), 10 },
-                { typeof(global::LoginResponsePacket), 11 },
-                { typeof(global::MovePacket), 12 },
-                { typeof(global::PacketBase), 13 },
-                { typeof(global::RegisterPacket), 14 },
-                { typeof(global::RegisterResponsePacket), 15 },
-                { typeof(global::RoomElement), 16 },
-                { typeof(global::RoomInfoPacket), 17 },
-                { typeof(global::SwitchRolePacket), 18 },
-                { typeof(global::SwitchRoleResponsePacket), 19 },
-                { typeof(global::UdpConnectPacket), 20 },
-                { typeof(global::UdpPacketBase), 21 },
-                { typeof(global::UserElement), 22 },
+                { typeof(global::AutoLoginPacket), 2 },
+                { typeof(global::ChatPacket), 3 },
+                { typeof(global::CreateRoomPacket), 4 },
+                { typeof(global::JoinRoomPacket), 5 },
+                { typeof(global::JoinRoomResponsePacket), 6 },
+                { typeof(global::LeaveRoomPacket), 7 },
+                { typeof(global::LeaveRoomResponsePacket), 8 },
+                { typeof(global::ListRoomPacket), 9 },
+                { typeof(global::ListRoomResponsePacket), 10 },
+                { typeof(global::LoginPacket), 11 },
+                { typeof(global::LoginResponsePacket), 12 },
+                { typeof(global::MovePacket), 13 },
+                { typeof(global::PacketBase), 14 },
+                { typeof(global::RegisterPacket), 15 },
+                { typeof(global::RegisterResponsePacket), 16 },
+                { typeof(global::RoomElement), 17 },
+                { typeof(global::RoomInfoPacket), 18 },
+                { typeof(global::SwitchRolePacket), 19 },
+                { typeof(global::SwitchRoleResponsePacket), 20 },
+                { typeof(global::UdpConnectPacket), 21 },
+                { typeof(global::UdpPacketBase), 22 },
+                { typeof(global::UserElement), 23 },
             };
         }
 
@@ -87,27 +88,28 @@ namespace MessagePack.Resolvers
             {
                 case 0: return new global::MessagePack.Formatters.ListFormatter<global::RoomElement>();
                 case 1: return new global::MessagePack.Formatters.ListFormatter<global::UserElement>();
-                case 2: return new MessagePack.Formatters.ChatPacketFormatter();
-                case 3: return new MessagePack.Formatters.CreateRoomPacketFormatter();
-                case 4: return new MessagePack.Formatters.JoinRoomPacketFormatter();
-                case 5: return new MessagePack.Formatters.JoinRoomResponsePacketFormatter();
-                case 6: return new MessagePack.Formatters.LeaveRoomPacketFormatter();
-                case 7: return new MessagePack.Formatters.LeaveRoomResponsePacketFormatter();
-                case 8: return new MessagePack.Formatters.ListRoomPacketFormatter();
-                case 9: return new MessagePack.Formatters.ListRoomResponsePacketFormatter();
-                case 10: return new MessagePack.Formatters.LoginPacketFormatter();
-                case 11: return new MessagePack.Formatters.LoginResponsePacketFormatter();
-                case 12: return new MessagePack.Formatters.MovePacketFormatter();
-                case 13: return new MessagePack.Formatters.PacketBaseFormatter();
-                case 14: return new MessagePack.Formatters.RegisterPacketFormatter();
-                case 15: return new MessagePack.Formatters.RegisterResponsePacketFormatter();
-                case 16: return new MessagePack.Formatters.RoomElementFormatter();
-                case 17: return new MessagePack.Formatters.RoomInfoPacketFormatter();
-                case 18: return new MessagePack.Formatters.SwitchRolePacketFormatter();
-                case 19: return new MessagePack.Formatters.SwitchRoleResponsePacketFormatter();
-                case 20: return new MessagePack.Formatters.UdpConnectPacketFormatter();
-                case 21: return new MessagePack.Formatters.UdpPacketBaseFormatter();
-                case 22: return new MessagePack.Formatters.UserElementFormatter();
+                case 2: return new MessagePack.Formatters.AutoLoginPacketFormatter();
+                case 3: return new MessagePack.Formatters.ChatPacketFormatter();
+                case 4: return new MessagePack.Formatters.CreateRoomPacketFormatter();
+                case 5: return new MessagePack.Formatters.JoinRoomPacketFormatter();
+                case 6: return new MessagePack.Formatters.JoinRoomResponsePacketFormatter();
+                case 7: return new MessagePack.Formatters.LeaveRoomPacketFormatter();
+                case 8: return new MessagePack.Formatters.LeaveRoomResponsePacketFormatter();
+                case 9: return new MessagePack.Formatters.ListRoomPacketFormatter();
+                case 10: return new MessagePack.Formatters.ListRoomResponsePacketFormatter();
+                case 11: return new MessagePack.Formatters.LoginPacketFormatter();
+                case 12: return new MessagePack.Formatters.LoginResponsePacketFormatter();
+                case 13: return new MessagePack.Formatters.MovePacketFormatter();
+                case 14: return new MessagePack.Formatters.PacketBaseFormatter();
+                case 15: return new MessagePack.Formatters.RegisterPacketFormatter();
+                case 16: return new MessagePack.Formatters.RegisterResponsePacketFormatter();
+                case 17: return new MessagePack.Formatters.RoomElementFormatter();
+                case 18: return new MessagePack.Formatters.RoomInfoPacketFormatter();
+                case 19: return new MessagePack.Formatters.SwitchRolePacketFormatter();
+                case 20: return new MessagePack.Formatters.SwitchRoleResponsePacketFormatter();
+                case 21: return new MessagePack.Formatters.UdpConnectPacketFormatter();
+                case 22: return new MessagePack.Formatters.UdpPacketBaseFormatter();
+                case 23: return new MessagePack.Formatters.UserElementFormatter();
                 default: return null;
             }
         }
