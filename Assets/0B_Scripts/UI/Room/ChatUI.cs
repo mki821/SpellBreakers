@@ -4,25 +4,36 @@ using TMPro;
 public class ChatUI : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _messageInput;
-    [SerializeField] private TextMeshProUGUI _chatText;
-    
+    [SerializeField] private RectTransform _contentTransform;
+    [SerializeField] private ChatElementUI _prefab;
+
     public void UpdateChat(PacketBase packet)
     {
         ChatPacket chat = (ChatPacket)packet;
 
         if (string.IsNullOrEmpty(chat.Sender))
         {
-            _chatText.text += $"\n{chat.Message}";
+            AddChat(chat.Message);
         }
         else
         {
-            _chatText.text += $"\n[{chat.Sender}] {chat.Message}";
+            AddChat($"[{chat.Sender}] {chat.Message}");
         }
+    }
+
+    private void AddChat(string message)
+    {
+        Instantiate(_prefab, _contentTransform).SetText(message);
     }
 
     public void ClearChat()
     {
-        _chatText.text = string.Empty;
+        foreach (Transform text in _contentTransform)
+        {
+            Destroy(text.gameObject);
+        }
+        
+        _contentTransform.sizeDelta = new Vector2(_contentTransform.sizeDelta.x, 0.0f);
     }
 
     public void Send()

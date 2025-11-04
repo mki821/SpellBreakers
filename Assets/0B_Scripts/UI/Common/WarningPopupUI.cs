@@ -12,4 +12,9 @@ public class WarningPopupUI : PopupUI
     {
         _messageText.text = message;
     }
+
+    public void Submit()
+    {
+        UIManager.Instance.PopupUI.RemovePopup();
+    }
 }
