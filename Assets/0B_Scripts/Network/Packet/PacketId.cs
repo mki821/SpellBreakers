@@ -24,5 +24,9 @@ public enum PacketId : ushort
     SwitchRole,
     SwitchRoleResponse,
 
+    Ready,
+    ReadyResponse,
+    StartGame,
+
     Move
 }

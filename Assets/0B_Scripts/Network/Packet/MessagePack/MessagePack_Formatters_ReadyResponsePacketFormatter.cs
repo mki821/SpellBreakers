@@ -16,10 +16,10 @@
 
 namespace MessagePack.Formatters
 {
-    public sealed class UserElementFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::UserElement>
+    public sealed class ReadyResponsePacketFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ReadyResponsePacket>
     {
 
-        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::UserElement value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::ReadyResponsePacket value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -27,13 +27,12 @@ namespace MessagePack.Formatters
                 return;
             }
 
-            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
-            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.Nickname, options);
+            writer.Write(value.ID);
             writer.Write(value.IsReady);
         }
 
-        public global::UserElement Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::ReadyResponsePacket Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -41,16 +40,15 @@ namespace MessagePack.Formatters
             }
 
             options.Security.DepthStep(ref reader);
-            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var ____result = new global::UserElement();
+            var ____result = new global::ReadyResponsePacket();
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        ____result.Nickname = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
+                        ____result.ID = reader.ReadUInt16();
                         break;
                     case 1:
                         ____result.IsReady = reader.ReadBoolean();

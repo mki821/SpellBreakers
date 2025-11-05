@@ -5,7 +5,8 @@ using TMPro;
 [RequireComponent(typeof(Image))]
 public class RoomInfoUserElementUI : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI _nicknameText;
+    [SerializeField] private TextMeshProUGUI _nicknameText;
+    [SerializeField] private GameObject _readyIcon;
     [SerializeField] private Color _activeColor;
     [SerializeField] private Color _inactiveColor;
 
@@ -16,11 +17,15 @@ public class RoomInfoUserElementUI : MonoBehaviour
         _image = GetComponent<Image>();
     }
 
-    public void SetInfo(string nickname, bool isActive)
+    public void SetInfo(UserElement element)
     {
-        _nicknameText.text = nickname;
+        bool isActive = element != null;
+
+        _nicknameText.text = isActive ? element.Nickname : "비어있음";
         _nicknameText.color = new Color(_nicknameText.color.r, _nicknameText.color.g, _nicknameText.color.b, isActive ? 1.0f : 0.5f);
 
+        _readyIcon.SetActive(isActive && element.IsReady);
+            
         _image.color = isActive ? _activeColor : _inactiveColor;
     }
 }

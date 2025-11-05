@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RoomInfoUI : UIBase
 {
     [SerializeField] private List<RoomInfoUserElementUI> _userElements;
+    [SerializeField] private TextMeshProUGUI _readyText;
 
-    [field: SerializeField] public ChatUI Chat;
+    [field: SerializeField] public ChatUI Chat { get; private set; }
 
     public void UpdateRoomInfo(PacketBase packet)
     {
@@ -19,12 +21,12 @@ public class RoomInfoUI : UIBase
     {
         for (int i = 0; i < elements.Count && start < end; ++i, ++start)
         {
-            _userElements[start].SetInfo(elements[i].Nickname, true);
+            _userElements[start].SetInfo(elements[i]);
         }
 
         for (; start < end; ++start)
         {
-            _userElements[start].SetInfo("비어있음", false);
+            _userElements[start].SetInfo(null);
         }
     }
 
@@ -32,10 +34,17 @@ public class RoomInfoUI : UIBase
     {
         SwitchRoleResponsePacket response = (SwitchRoleResponsePacket)packet;
 
-        if(!response.Success)
+        if (!response.Success)
         {
             UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText(response.Message);
         }
+    }
+    
+    public void HandleReady(PacketBase packet)
+    {
+        ReadyResponsePacket response = (ReadyResponsePacket)packet;
+
+        _readyText.text = response.IsReady ? "준비 취소" : "준비 완료";
     }
 
     public void HandleLeaveRoom(PacketBase packet)
@@ -52,10 +61,16 @@ public class RoomInfoUI : UIBase
             UIManager.Instance.PopupUI.AddPopup<WarningPopupUI>(PopupType.Warning).SetText(response.Message);
         }
     }
-    
+
     public void SwitchRole()
     {
         SwitchRolePacket packet = new SwitchRolePacket();
+        NetworkManager.Instance.SendAsync(packet);
+    }
+    
+    public void Ready()
+    {
+        ReadyPacket packet = new ReadyPacket();
         NetworkManager.Instance.SendAsync(packet);
     }
 

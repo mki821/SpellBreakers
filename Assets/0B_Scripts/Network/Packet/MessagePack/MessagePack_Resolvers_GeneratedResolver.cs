@@ -47,7 +47,7 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(24)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(27)
             {
                 { typeof(global::System.Collections.Generic.List<global::RoomElement>), 0 },
                 { typeof(global::System.Collections.Generic.List<global::UserElement>), 1 },
@@ -64,15 +64,18 @@ namespace MessagePack.Resolvers
                 { typeof(global::LoginResponsePacket), 12 },
                 { typeof(global::MovePacket), 13 },
                 { typeof(global::PacketBase), 14 },
-                { typeof(global::RegisterPacket), 15 },
-                { typeof(global::RegisterResponsePacket), 16 },
-                { typeof(global::RoomElement), 17 },
-                { typeof(global::RoomInfoPacket), 18 },
-                { typeof(global::SwitchRolePacket), 19 },
-                { typeof(global::SwitchRoleResponsePacket), 20 },
-                { typeof(global::UdpConnectPacket), 21 },
-                { typeof(global::UdpPacketBase), 22 },
-                { typeof(global::UserElement), 23 },
+                { typeof(global::ReadyPacket), 15 },
+                { typeof(global::ReadyResponsePacket), 16 },
+                { typeof(global::RegisterPacket), 17 },
+                { typeof(global::RegisterResponsePacket), 18 },
+                { typeof(global::RoomElement), 19 },
+                { typeof(global::RoomInfoPacket), 20 },
+                { typeof(global::StartGamePacket), 21 },
+                { typeof(global::SwitchRolePacket), 22 },
+                { typeof(global::SwitchRoleResponsePacket), 23 },
+                { typeof(global::UdpConnectPacket), 24 },
+                { typeof(global::UdpPacketBase), 25 },
+                { typeof(global::UserElement), 26 },
             };
         }
 
@@ -101,15 +104,18 @@ namespace MessagePack.Resolvers
                 case 12: return new MessagePack.Formatters.LoginResponsePacketFormatter();
                 case 13: return new MessagePack.Formatters.MovePacketFormatter();
                 case 14: return new MessagePack.Formatters.PacketBaseFormatter();
-                case 15: return new MessagePack.Formatters.RegisterPacketFormatter();
-                case 16: return new MessagePack.Formatters.RegisterResponsePacketFormatter();
-                case 17: return new MessagePack.Formatters.RoomElementFormatter();
-                case 18: return new MessagePack.Formatters.RoomInfoPacketFormatter();
-                case 19: return new MessagePack.Formatters.SwitchRolePacketFormatter();
-                case 20: return new MessagePack.Formatters.SwitchRoleResponsePacketFormatter();
-                case 21: return new MessagePack.Formatters.UdpConnectPacketFormatter();
-                case 22: return new MessagePack.Formatters.UdpPacketBaseFormatter();
-                case 23: return new MessagePack.Formatters.UserElementFormatter();
+                case 15: return new MessagePack.Formatters.ReadyPacketFormatter();
+                case 16: return new MessagePack.Formatters.ReadyResponsePacketFormatter();
+                case 17: return new MessagePack.Formatters.RegisterPacketFormatter();
+                case 18: return new MessagePack.Formatters.RegisterResponsePacketFormatter();
+                case 19: return new MessagePack.Formatters.RoomElementFormatter();
+                case 20: return new MessagePack.Formatters.RoomInfoPacketFormatter();
+                case 21: return new MessagePack.Formatters.StartGamePacketFormatter();
+                case 22: return new MessagePack.Formatters.SwitchRolePacketFormatter();
+                case 23: return new MessagePack.Formatters.SwitchRoleResponsePacketFormatter();
+                case 24: return new MessagePack.Formatters.UdpConnectPacketFormatter();
+                case 25: return new MessagePack.Formatters.UdpPacketBaseFormatter();
+                case 26: return new MessagePack.Formatters.UserElementFormatter();
                 default: return null;
             }
         }

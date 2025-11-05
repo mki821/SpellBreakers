@@ -80,6 +80,7 @@ public class RoomInfoPacket : PacketBase
 public class UserElement
 {
     [Key(0)] public string Nickname { get; set; } = "";
+    [Key(1)] public bool IsReady { get; set; }
 }
 
 [MessagePackObject]
@@ -104,6 +105,26 @@ public class SwitchRoleResponsePacket : PacketBase
     [Key(2)] public string Message { get; set; } = "";
 
     public SwitchRoleResponsePacket() { ID = (ushort)PacketId.SwitchRoleResponse; }
+}
+
+[MessagePackObject]
+public class ReadyPacket : PacketBase
+{
+    public ReadyPacket() { ID = (ushort)PacketId.Ready; }
+}
+
+[MessagePackObject]
+public class ReadyResponsePacket : PacketBase
+{
+    [Key(1)] public bool IsReady { get; set; }
+    
+    public ReadyResponsePacket() { ID = (ushort)PacketId.ReadyResponse; }
+}
+
+[MessagePackObject]
+public class StartGamePacket : PacketBase
+{
+    public StartGamePacket() { ID = (ushort)PacketId.StartGame; }
 }
 
 [MessagePackObject]
