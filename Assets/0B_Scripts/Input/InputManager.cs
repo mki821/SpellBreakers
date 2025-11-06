@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public enum InputType : byte
 {
-    Move,
+    Move, MoveCancel
 }
 
 public class InputManager : MonoSingleton<InputManager>
@@ -26,7 +26,7 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     public void RemoveListener(InputType type, Action callback) => _so.EventDictionary[type] -= callback;
-    public Vector2 GetMovement() => _so.Movement;
+    public Vector2 GetMousePosition() => _so.MousePosition;
 
     public void Rebind(InputType type, bool mouseEnable = true)
     {

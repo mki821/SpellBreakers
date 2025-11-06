@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 public class InputSO : ScriptableObject, Input.IPlayerActions
 {
     public Vector2 MousePosition { get; private set; }
-    public Vector2 Movement { get; private set; }
     public Dictionary<InputType, Action> EventDictionary = new Dictionary<InputType, Action>();
 
     private Input _customInput;
@@ -30,8 +29,14 @@ public class InputSO : ScriptableObject, Input.IPlayerActions
         _customInput.Player.Disable();
     }
 
+    public void OnMousePosition(InputAction.CallbackContext context)
+    {
+        MousePosition = context.ReadValue<Vector2>();
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
-        Movement = context.ReadValue<Vector2>();
+        if (context.performed) EventDictionary[InputType.Move]?.Invoke();
+        else if (context.canceled) EventDictionary[InputType.MoveCancel]?.Invoke();
     }
 }

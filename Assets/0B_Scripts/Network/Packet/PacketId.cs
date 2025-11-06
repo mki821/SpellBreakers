@@ -28,5 +28,6 @@ public enum PacketId : ushort
     ReadyResponse,
     StartGame,
 
-    Move
+    EntityInfo,
+    Move,
 }
