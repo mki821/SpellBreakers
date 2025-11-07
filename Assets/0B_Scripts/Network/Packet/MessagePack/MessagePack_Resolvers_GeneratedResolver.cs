@@ -47,9 +47,9 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(30)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(31)
             {
-                { typeof(global::System.Collections.Generic.List<global::EntityInfo>), 0 },
+                { typeof(global::System.Collections.Generic.IEnumerable<global::EntityInfo>), 0 },
                 { typeof(global::System.Collections.Generic.List<global::RoomElement>), 1 },
                 { typeof(global::System.Collections.Generic.List<global::UserElement>), 2 },
                 { typeof(global::AutoLoginPacket), 3 },
@@ -79,6 +79,7 @@ namespace MessagePack.Resolvers
                 { typeof(global::UdpConnectPacket), 27 },
                 { typeof(global::UdpPacketBase), 28 },
                 { typeof(global::UserElement), 29 },
+                { typeof(global::Vector), 30 },
             };
         }
 
@@ -92,7 +93,7 @@ namespace MessagePack.Resolvers
 
             switch (key)
             {
-                case 0: return new global::MessagePack.Formatters.ListFormatter<global::EntityInfo>();
+                case 0: return new global::MessagePack.Formatters.InterfaceEnumerableFormatter<global::EntityInfo>();
                 case 1: return new global::MessagePack.Formatters.ListFormatter<global::RoomElement>();
                 case 2: return new global::MessagePack.Formatters.ListFormatter<global::UserElement>();
                 case 3: return new MessagePack.Formatters.AutoLoginPacketFormatter();
@@ -122,6 +123,7 @@ namespace MessagePack.Resolvers
                 case 27: return new MessagePack.Formatters.UdpConnectPacketFormatter();
                 case 28: return new MessagePack.Formatters.UdpPacketBaseFormatter();
                 case 29: return new MessagePack.Formatters.UserElementFormatter();
+                case 30: return new MessagePack.Formatters.VectorFormatter();
                 default: return null;
             }
         }

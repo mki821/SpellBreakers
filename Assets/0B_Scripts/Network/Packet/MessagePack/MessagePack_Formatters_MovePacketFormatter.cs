@@ -28,11 +28,10 @@ namespace MessagePack.Formatters
             }
 
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(4);
+            writer.WriteArrayHeader(3);
             writer.Write(value.ID);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.Token, options);
-            writer.Write(value.X);
-            writer.Write(value.Y);
+            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Serialize(ref writer, value.TargetPosition, options);
         }
 
         public global::MovePacket Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -58,10 +57,7 @@ namespace MessagePack.Formatters
                         ____result.Token = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     case 2:
-                        ____result.X = reader.ReadSingle();
-                        break;
-                    case 3:
-                        ____result.Y = reader.ReadSingle();
+                        ____result.TargetPosition = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1650505edd06942ba67416bed4ef09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  _temp:
+  _entityPrefabs:
     _keyValueList:
     - _key: 0
       _value: {fileID: 8101194981922301344, guid: 3c2d7379f9d72724283940de10b90837, type: 3}

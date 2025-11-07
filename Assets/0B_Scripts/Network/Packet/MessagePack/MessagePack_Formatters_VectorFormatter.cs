@@ -16,48 +16,42 @@
 
 namespace MessagePack.Formatters
 {
-    public sealed class EntityInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::EntityInfo>
+    public sealed class VectorFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Vector>
     {
 
-        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::EntityInfo value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::Vector value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            if (value == null)
-            {
-                writer.WriteNil();
-                return;
-            }
-
-            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(3);
-            writer.Write(value.EntityType);
-            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.EntityID, options);
-            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Serialize(ref writer, value.Position, options);
+            writer.Write(value.X);
+            writer.Write(value.Y);
+            writer.Write(value.Z);
         }
 
-        public global::EntityInfo Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Vector Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
-                return null;
+                throw new global::System.InvalidOperationException("typecode is null, struct not supported");
             }
 
             options.Security.DepthStep(ref reader);
-            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var ____result = new global::EntityInfo();
+            var __X__ = default(float);
+            var __Y__ = default(float);
+            var __Z__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        ____result.EntityType = reader.ReadUInt16();
+                        __X__ = reader.ReadSingle();
                         break;
                     case 1:
-                        ____result.EntityID = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
+                        __Y__ = reader.ReadSingle();
                         break;
                     case 2:
-                        ____result.Position = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
+                        __Z__ = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();
@@ -65,6 +59,7 @@ namespace MessagePack.Formatters
                 }
             }
 
+            var ____result = new global::Vector(__X__, __Y__, __Z__);
             reader.Depth--;
             return ____result;
         }

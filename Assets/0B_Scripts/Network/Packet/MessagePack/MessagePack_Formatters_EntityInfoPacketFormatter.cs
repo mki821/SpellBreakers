@@ -31,7 +31,7 @@ namespace MessagePack.Formatters
             writer.WriteArrayHeader(3);
             writer.Write(value.ID);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.Token, options);
-            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::System.Collections.Generic.List<global::EntityInfo>>(formatterResolver).Serialize(ref writer, value.Entities, options);
+            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::EntityInfo>>(formatterResolver).Serialize(ref writer, value.Entities, options);
         }
 
         public global::EntityInfoPacket Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -57,7 +57,7 @@ namespace MessagePack.Formatters
                         ____result.Token = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     case 2:
-                        ____result.Entities = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::System.Collections.Generic.List<global::EntityInfo>>(formatterResolver).Deserialize(ref reader, options);
+                        ____result.Entities = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::EntityInfo>>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

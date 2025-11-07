@@ -23,8 +23,7 @@ public class MoveController : MonoBehaviour
                 MovePacket packet = new MovePacket
                 {
                     Token = NetworkManager.Instance.Token,
-                    X = hit.point.x,
-                    Y = hit.point.z
+                    TargetPosition = new Vector(hit.point.x, 0.0f, hit.point.z)
                 };
 
                 NetworkManager.Instance.SendAsync(packet);
