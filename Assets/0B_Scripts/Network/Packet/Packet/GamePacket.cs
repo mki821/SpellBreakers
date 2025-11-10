@@ -16,6 +16,8 @@ public class EntityInfo
     [Key(0)] public ushort EntityType { get; set; }
     [Key(1)] public string EntityID { get; set; }
     [Key(2)] public Vector Position { get; set; }
+    [Key(3)] public bool IsMoving { get; set; }
+    [Key(4)] public bool IsDead { get; set; }
 }
 
 [MessagePackObject]
@@ -32,6 +34,13 @@ public struct Vector
         Z = z;
     }
 
+    public Vector(Vector3 vector)
+    {
+        X = vector.x;
+        Y = vector.y;
+        Z = vector.z;
+    }
+
     public readonly Vector3 GetVector3() => new Vector3(X, Y, Z);
 }
 
@@ -41,4 +50,13 @@ public class MovePacket : UdpPacketBase
     [Key(2)] public Vector TargetPosition { get; set; }
 
     public MovePacket() { ID = (ushort)PacketId.Move; }
+}
+
+[MessagePackObject]
+public class FireProjectilePacket : UdpPacketBase
+{
+    [Key(2)] public Vector SpawnPosition { get; set; }
+    [Key(3)] public Vector TargetPosition { get; set; }
+    
+    public FireProjectilePacket() { ID = (ushort)PacketId.FireProjectile; }
 }

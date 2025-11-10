@@ -36,7 +36,47 @@ public class InputSO : ScriptableObject, Input.IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.performed) EventDictionary[InputType.Move]?.Invoke();
-        else if (context.canceled) EventDictionary[InputType.MoveCancel]?.Invoke();
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Move)?.Invoke();
+        else if (context.canceled) EventDictionary.GetValueOrDefault(InputType.MoveCancel)?.Invoke();
+    }
+
+    public void OnSkill1(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill1)?.Invoke();
+    }
+
+    public void OnSkill2(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill2)?.Invoke();
+    }
+
+    public void OnSkill3(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill3)?.Invoke();
+    }
+
+    public void OnSkill4(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill4)?.Invoke();
+    }
+
+    public void OnSkill5(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill5)?.Invoke();
+    }
+
+    public void OnSkill6(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill6)?.Invoke();
+    }
+
+    public void OnSkill7(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill7)?.Invoke();
+    }
+
+    public void OnSkill8(InputAction.CallbackContext context)
+    {
+        if (context.performed) EventDictionary.GetValueOrDefault(InputType.Skill8)?.Invoke();
     }
 }

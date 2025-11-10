@@ -28,10 +28,12 @@ namespace MessagePack.Formatters
             }
 
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(3);
+            writer.WriteArrayHeader(5);
             writer.Write(value.EntityType);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.EntityID, options);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Serialize(ref writer, value.Position, options);
+            writer.Write(value.IsMoving);
+            writer.Write(value.IsDead);
         }
 
         public global::EntityInfo Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -58,6 +60,12 @@ namespace MessagePack.Formatters
                         break;
                     case 2:
                         ____result.Position = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        ____result.IsMoving = reader.ReadBoolean();
+                        break;
+                    case 4:
+                        ____result.IsDead = reader.ReadBoolean();
                         break;
                     default:
                         reader.Skip();

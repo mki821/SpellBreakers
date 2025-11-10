@@ -30,4 +30,5 @@ public enum PacketId : ushort
 
     EntityInfo,
     Move,
+    FireProjectile,
 }

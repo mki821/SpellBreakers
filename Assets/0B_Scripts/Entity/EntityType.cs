@@ -1,4 +1,5 @@
 public enum EntityType : ushort
 {
-    Character
+    Character,
+    Projectile
 }
