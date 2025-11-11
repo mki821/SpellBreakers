@@ -8,9 +8,6 @@
 #pragma warning disable 168
 #pragma warning disable CS1591 // document public APIs
 
-#pragma warning disable SA1129 // Do not use default value type constructor
-#pragma warning disable SA1309 // Field names should not begin with underscore
-#pragma warning disable SA1312 // Variable names should begin with lower-case letter
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
@@ -18,21 +15,46 @@ namespace MessagePack.Formatters
 {
     public sealed class EntityInfoFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::EntityInfo>
     {
+        private readonly global::System.Collections.Generic.Dictionary<global::System.RuntimeTypeHandle, global::System.Collections.Generic.KeyValuePair<int, int>> typeToKeyAndJumpMap;
+        private readonly global::System.Collections.Generic.Dictionary<int, int> keyToJumpMap;
+
+        public EntityInfoFormatter()
+        {
+            this.typeToKeyAndJumpMap = new global::System.Collections.Generic.Dictionary<global::System.RuntimeTypeHandle, global::System.Collections.Generic.KeyValuePair<int, int>>(2, global::MessagePack.Internal.RuntimeTypeHandleEqualityComparer.Default)
+            {
+                { typeof(global::DefaultEntityInfo).TypeHandle, new global::System.Collections.Generic.KeyValuePair<int, int>(0, 0) },
+                { typeof(global::CharacterInfo).TypeHandle, new global::System.Collections.Generic.KeyValuePair<int, int>(1, 1) },
+            };
+            this.keyToJumpMap = new global::System.Collections.Generic.Dictionary<int, int>(2)
+            {
+                { 0, 0 },
+                { 1, 1 },
+            };
+        }
 
         public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::EntityInfo value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            if (value == null)
+            global::System.Collections.Generic.KeyValuePair<int, int> keyValuePair;
+            if (value != null && this.typeToKeyAndJumpMap.TryGetValue(value.GetType().TypeHandle, out keyValuePair))
             {
-                writer.WriteNil();
+                writer.WriteArrayHeader(2);
+                writer.WriteInt32(keyValuePair.Key);
+                switch (keyValuePair.Value)
+                {
+                    case 0:
+                        global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::DefaultEntityInfo>(options.Resolver).Serialize(ref writer, (global::DefaultEntityInfo)value, options);
+                        break;
+                    case 1:
+                        global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::CharacterInfo>(options.Resolver).Serialize(ref writer, (global::CharacterInfo)value, options);
+                        break;
+                    default:
+                        break;
+                }
+
                 return;
             }
 
-            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(4);
-            writer.Write(value.EntityType);
-            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.EntityID, options);
-            global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Serialize(ref writer, value.Position, options);
-            writer.Write(value.IsMoving);
+            writer.WriteNil();
         }
 
         public global::EntityInfo Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -42,37 +64,38 @@ namespace MessagePack.Formatters
                 return null;
             }
 
-            options.Security.DepthStep(ref reader);
-            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            var length = reader.ReadArrayHeader();
-            var ____result = new global::EntityInfo();
-
-            for (int i = 0; i < length; i++)
+            if (reader.ReadArrayHeader() != 2)
             {
-                switch (i)
-                {
-                    case 0:
-                        ____result.EntityType = reader.ReadUInt16();
-                        break;
-                    case 1:
-                        ____result.EntityID = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
-                        break;
-                    case 2:
-                        ____result.Position = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
-                        break;
-                    case 3:
-                        ____result.IsMoving = reader.ReadBoolean();
-                        break;
-                    default:
-                        reader.Skip();
-                        break;
-                }
+                throw new global::System.InvalidOperationException("Invalid Union data was detected. Type:global::EntityInfo");
+            }
+
+            options.Security.DepthStep(ref reader);
+            var key = reader.ReadInt32();
+
+            if (!this.keyToJumpMap.TryGetValue(key, out key))
+            {
+                key = -1;
+            }
+
+            global::EntityInfo result = null;
+            switch (key)
+            {
+                case 0:
+                    result = (global::EntityInfo)global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::DefaultEntityInfo>(options.Resolver).Deserialize(ref reader, options);
+                    break;
+                case 1:
+                    result = (global::EntityInfo)global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::CharacterInfo>(options.Resolver).Deserialize(ref reader, options);
+                    break;
+                default:
+                    reader.Skip();
+                    break;
             }
 
             reader.Depth--;
-            return ____result;
+            return result;
         }
     }
+
 
 }
 
@@ -81,8 +104,5 @@ namespace MessagePack.Formatters
 #pragma warning restore 618
 #pragma warning restore 612
 
-#pragma warning restore SA1129 // Do not use default value type constructor
-#pragma warning restore SA1309 // Field names should not begin with underscore
-#pragma warning restore SA1312 // Variable names should begin with lower-case letter
 #pragma warning restore SA1403 // File may only contain a single namespace
 #pragma warning restore SA1649 // File name should match first type name

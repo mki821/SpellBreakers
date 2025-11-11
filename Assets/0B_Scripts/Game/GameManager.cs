@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [MonoSingletonUsage(MonoSingletonFlags.None)]
 public class GameManager : MonoSingleton<GameManager>
@@ -31,6 +30,10 @@ public class GameManager : MonoSingleton<GameManager>
 
         foreach (EntityInfo entityInfo in info.Entities)
         {
+            if(entityInfo is CharacterInfo cInfo)
+            {
+                Debug.Log(cInfo.CurrentHealth);
+            }
             _receivedIds.Add(entityInfo.EntityID);
 
             if (!_entities.TryGetValue(entityInfo.EntityID, out Entity entity))
