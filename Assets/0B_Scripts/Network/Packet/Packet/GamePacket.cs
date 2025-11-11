@@ -5,7 +5,7 @@ using MessagePack;
 [MessagePackObject]
 public class EntityInfoPacket : UdpPacketBase
 {
-    [Key(2)] public IEnumerable<EntityInfo> Entities;
+    [Key(3)] public IEnumerable<EntityInfo> Entities;
 
     public EntityInfoPacket() { ID = (ushort)PacketId.EntityInfo; }
 }
@@ -17,7 +17,6 @@ public class EntityInfo
     [Key(1)] public string EntityID { get; set; }
     [Key(2)] public Vector Position { get; set; }
     [Key(3)] public bool IsMoving { get; set; }
-    [Key(4)] public bool IsDead { get; set; }
 }
 
 [MessagePackObject]
@@ -47,7 +46,7 @@ public struct Vector
 [MessagePackObject]
 public class MovePacket : UdpPacketBase
 {
-    [Key(2)] public Vector TargetPosition { get; set; }
+    [Key(3)] public Vector TargetPosition { get; set; }
 
     public MovePacket() { ID = (ushort)PacketId.Move; }
 }
@@ -55,8 +54,9 @@ public class MovePacket : UdpPacketBase
 [MessagePackObject]
 public class FireProjectilePacket : UdpPacketBase
 {
-    [Key(2)] public Vector SpawnPosition { get; set; }
-    [Key(3)] public Vector TargetPosition { get; set; }
+    [Key(3)] public string OwnerID { get; set; } = "";
+    [Key(4)] public Vector SpawnPosition { get; set; }
+    [Key(5)] public Vector TargetPosition { get; set; }
     
     public FireProjectilePacket() { ID = (ushort)PacketId.FireProjectile; }
 }

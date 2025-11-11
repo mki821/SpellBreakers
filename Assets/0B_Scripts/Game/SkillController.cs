@@ -13,13 +13,14 @@ public class SkillController : MonoBehaviour
     {
         FireProjectilePacket packet = new FireProjectilePacket();
 
-        Vector3 position = GameManager.Instance.Player.transform.position;
-
-        packet.SpawnPosition = new Vector(position.x, 0.5f, position.z);
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMousePosition());
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 30.0f, _whatIsGround))
+        if (Physics.Raycast(ray, out RaycastHit hit, 80.0f, _whatIsGround))
         {
+            Vector3 position = GameManager.Instance.Player.transform.position;
+
+            packet.OwnerID = NetworkManager.Instance.Token;
+            packet.SpawnPosition = new Vector(position.x, 0.5f, position.z);
             packet.TargetPosition = new Vector(hit.point);
 
             NetworkManager.Instance.SendAsync(packet);

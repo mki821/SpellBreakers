@@ -18,7 +18,7 @@ public class MoveController : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMousePosition());
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 30.0f, _whatIsGround))
+            if (Physics.Raycast(ray, out RaycastHit hit, 80.0f, _whatIsGround))
             {
                 MovePacket packet = new MovePacket
                 {

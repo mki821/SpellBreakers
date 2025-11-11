@@ -28,9 +28,10 @@ namespace MessagePack.Formatters
             }
 
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(3);
+            writer.WriteArrayHeader(4);
             writer.Write(value.ID);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.Token, options);
+            writer.Write(value.Tick);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::EntityInfo>>(formatterResolver).Serialize(ref writer, value.Entities, options);
         }
 
@@ -57,6 +58,9 @@ namespace MessagePack.Formatters
                         ____result.Token = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     case 2:
+                        ____result.Tick = reader.ReadUInt32();
+                        break;
+                    case 3:
                         ____result.Entities = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::EntityInfo>>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     default:

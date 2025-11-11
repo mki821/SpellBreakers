@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [MonoSingletonUsage(MonoSingletonFlags.None)]
 public class GameManager : MonoSingleton<GameManager>
@@ -7,7 +8,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private CameraController _cameraController;
     [SerializeField] private SerializableDictionary<EntityType, Entity> _entityPrefabs;
 
-    private Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
+    private readonly Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
+    private readonly HashSet<string> _receivedIds = new HashSet<string>();
 
     public Entity Player { get; private set; }
 
@@ -22,20 +24,19 @@ public class GameManager : MonoSingleton<GameManager>
     {
         EntityInfoPacket info = (EntityInfoPacket)packet;
 
+        if (info.Tick < NetworkManager.Instance.LastTick) return;
+        NetworkManager.Instance.LastTick = info.Tick;
+
+        _receivedIds.Clear();
+
         foreach (EntityInfo entityInfo in info.Entities)
         {
+            _receivedIds.Add(entityInfo.EntityID);
+
             if (!_entities.TryGetValue(entityInfo.EntityID, out Entity entity))
             {
                 entity = CreateEntity(entityInfo);
                 _entities.Add(entityInfo.EntityID, entity);
-            }
-
-            if(entityInfo.IsDead)
-            {
-                _entities.Remove(entityInfo.EntityID);
-                Destroy(entity.gameObject);
-
-                return;
             }
 
             entity.transform.position = entityInfo.Position.GetVector3();
@@ -44,6 +45,21 @@ public class GameManager : MonoSingleton<GameManager>
             {
                 character.GetCharacterComponent<CharacterAnimator>().SetMoving(entityInfo.IsMoving);
             }
+        }
+
+        List<string> destroyIds = new List<string>();
+        foreach (string id in _entities.Keys)
+        {
+            if (!_receivedIds.Contains(id))
+            {
+                destroyIds.Add(id);
+            }
+        }
+        
+        for (int i = 0; i < destroyIds.Count; ++i)
+        {
+            Destroy(_entities[destroyIds[i]].gameObject);
+            _entities.Remove(destroyIds[i]);
         }
     }
     
