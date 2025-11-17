@@ -23,7 +23,7 @@ public class RoomUI : UIBase
         ListRoomPacket list = new ListRoomPacket();
         NetworkManager.Instance.SendAsync(list);
     }
-    
+
     private void StartGame(PacketBase packet)
     {
         SceneManager.LoadScene(1);

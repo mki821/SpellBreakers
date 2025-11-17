@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Character : Entity
 {
+    [SerializeField] private float _statusUIOffset;
+
     private readonly Dictionary<Type, ICharacterComponent> _components = new Dictionary<Type, ICharacterComponent>();
 
     private Vector3 _previousPosition;
@@ -32,9 +34,16 @@ public class Character : Entity
 
         Vector3 direction = (currentPosition - _previousPosition).normalized;
         direction.y = 0.0f;
-        
+
         transform.rotation = Quaternion.LookRotation(direction);
 
         _previousPosition = currentPosition;
+    }
+    
+    public void SetInfo(CharacterInfo info)
+    {
+        StatusUI status = UIManager.Instance.HUDUI.GetUI<StatusUI>(info.EntityID);
+        status.transform.position = Camera.main.WorldToScreenPoint(info.Position.GetVector3()) + Vector3.up * _statusUIOffset;
+        status.SetHealth(info.CurrentHealth / info.Stat.MaxHealth);
     }
 }

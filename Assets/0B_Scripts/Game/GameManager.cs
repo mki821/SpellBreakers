@@ -16,6 +16,8 @@ public class GameManager : MonoSingleton<GameManager>
     {
         base.Awake();
 
+        UIManager.Instance.GetUI(UIType.Room).gameObject.SetActive(false);
+
         PacketHandler.Register(PacketId.EntityInfo, HandleEntityInfo);
     }
 
@@ -30,22 +32,26 @@ public class GameManager : MonoSingleton<GameManager>
 
         foreach (EntityInfo entityInfo in info.Entities)
         {
-            if(entityInfo is CharacterInfo cInfo)
-            {
-                Debug.Log(cInfo.CurrentHealth);
-            }
-            _receivedIds.Add(entityInfo.EntityID);
+            string id = entityInfo.EntityID;
 
-            if (!_entities.TryGetValue(entityInfo.EntityID, out Entity entity))
+            _receivedIds.Add(id);
+
+            if (!_entities.TryGetValue(id, out Entity entity))
             {
                 entity = CreateEntity(entityInfo);
-                _entities.Add(entityInfo.EntityID, entity);
+                _entities.Add(id, entity);
+
+                if(entity is Character)
+                {
+                    UIManager.Instance.HUDUI.AddHUD(id, HUDType.Status);
+                }
             }
 
             entity.transform.position = entityInfo.Position.GetVector3();
 
             if (entity is Character character)
             {
+                character.SetInfo((CharacterInfo)entityInfo);
                 character.GetCharacterComponent<CharacterAnimator>().SetMoving(entityInfo.IsMoving);
             }
         }
@@ -61,6 +67,11 @@ public class GameManager : MonoSingleton<GameManager>
         
         for (int i = 0; i < destroyIds.Count; ++i)
         {
+            if (_entities[destroyIds[i]] is Character)
+            {
+                UIManager.Instance.HUDUI.RemoveHUD(destroyIds[i]);
+            }
+            
             Destroy(_entities[destroyIds[i]].gameObject);
             _entities.Remove(destroyIds[i]);
         }

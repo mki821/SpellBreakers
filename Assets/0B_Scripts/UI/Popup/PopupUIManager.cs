@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class PopupUIManager
 {
-    private Stack<PopupUI> _popupStack;
-    private Dictionary<PopupType, PopupUI> _popupDictionary;
-    private Transform _popupTransform;
+    private readonly Stack<PopupUI> _popupStack;
+    private readonly Dictionary<PopupType, PopupUI> _popupDictionary;
+    private readonly Transform _popupTransform;
 
     public PopupUIManager(Dictionary<PopupType, PopupUI> popupDictionary, Transform popupTransform)
     {
