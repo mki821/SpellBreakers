@@ -16,10 +16,10 @@
 
 namespace MessagePack.Formatters
 {
-    public sealed class FireProjectilePacketFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::FireProjectilePacket>
+    public sealed class SkillPacketFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::SkillPacket>
     {
 
-        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::FireProjectilePacket value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::SkillPacket value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -28,16 +28,17 @@ namespace MessagePack.Formatters
             }
 
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(6);
+            writer.WriteArrayHeader(7);
             writer.Write(value.ID);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.Token, options);
             writer.Write(value.Tick);
+            writer.Write(value.SkillType);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Serialize(ref writer, value.OwnerID, options);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Serialize(ref writer, value.SpawnPosition, options);
             global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Serialize(ref writer, value.TargetPosition, options);
         }
 
-        public global::FireProjectilePacket Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::SkillPacket Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -47,7 +48,7 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var ____result = new global::FireProjectilePacket();
+            var ____result = new global::SkillPacket();
 
             for (int i = 0; i < length; i++)
             {
@@ -63,12 +64,15 @@ namespace MessagePack.Formatters
                         ____result.Tick = reader.ReadUInt32();
                         break;
                     case 3:
-                        ____result.OwnerID = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
+                        ____result.SkillType = reader.ReadUInt16();
                         break;
                     case 4:
-                        ____result.SpawnPosition = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
+                        ____result.OwnerID = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<string>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     case 5:
+                        ____result.SpawnPosition = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
+                        break;
+                    case 6:
                         ____result.TargetPosition = global::MessagePack.FormatterResolverExtensions.GetFormatterWithVerify<global::Vector>(formatterResolver).Deserialize(ref reader, options);
                         break;
                     default:

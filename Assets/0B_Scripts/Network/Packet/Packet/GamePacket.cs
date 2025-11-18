@@ -79,11 +79,12 @@ public class MovePacket : UdpPacketBase
 }
 
 [MessagePackObject]
-public class FireProjectilePacket : UdpPacketBase
+public class SkillPacket : UdpPacketBase
 {
-    [Key(3)] public string OwnerID { get; set; } = "";
-    [Key(4)] public Vector SpawnPosition { get; set; }
-    [Key(5)] public Vector TargetPosition { get; set; }
+    [Key(3)] public ushort SkillType { get; set; }
+    [Key(4)] public string OwnerID { get; set; } = "";
+    [Key(5)] public Vector SpawnPosition { get; set; }
+    [Key(6)] public Vector TargetPosition { get; set; }
     
-    public FireProjectilePacket() { ID = (ushort)PacketId.FireProjectile; }
+    public SkillPacket() { ID = (ushort)PacketId.Skill; }
 }
